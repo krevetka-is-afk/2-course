@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/sergeyrastvorov/Documents/GitHub/2-course",
+      "program": "/Users/sergeyrastvorov/Documents/GitHub/2-course/build/Debug/outDebug"
+    }
+  ]
+}
