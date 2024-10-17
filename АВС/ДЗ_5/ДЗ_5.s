@@ -7,8 +7,9 @@ msg_error:	.asciz "Wrong option\nTry again 1 or 2: "
 max_32bit_word:	.word 2147483647
 
 .text
+
 main:	
-	la a0, msg_start	# start message
+	la a0, msg_start	
 	li a7, 4
 	ecall
 	
@@ -20,7 +21,7 @@ main:
 	ecall
 	
 	li a0, 0
-	li a7, 10		# stop the programm
+	li a7, 10		
 	ecall
 	
 input_option:
@@ -32,9 +33,7 @@ input_option:
 check_option:	
 	li t1, 1
 	li t2, 2
-	# check =1
 	beq t6, t1, run_cycle
-	# check =2
 	beq t6, t2, run_recursion
 	j error
 
@@ -73,39 +72,36 @@ run_recursion:
 	j end
 
 fact_max_cycle:
-	li t0, 1 		# counter
-	li t1, 1
-	la t2, max_32bit_word
+	li t0, 1 		
+	li t1, 1		
+	la t2, max_32bit_word	
 	j cycle_loop
 	
 cycle_loop:
-	mul t3, t0, t1
-	blt t3, t2, step_cycle
+	mul t3, t0, t1		
+	blt t3, t2, step_cycle	
 	j end_cycle_loop
 
 step_cycle:
-	mv t1, t3
-	addi t0, t0, 1
-	j fact_max_cycle
+	mv t1, t3		
+	addi t0, t0, 1		
+	j cycle_loop		
 
 end_cycle_loop:
-	addi t0, t0, -1
+	addi t0, t0, -1		
 	ret
 	
-
 fact_max_recursion:
- 	mul t2, t1, t0            
-    	la t3, max_32bit_word           
- 	bge t2, t3, end_factorial_recursive 
-
-    	addi t0, t0, 1             
-    	mv t1, t2                  
-    	jal fact_max_recursion
+ 	mul t2, t1, t0		
+    la t3, max_32bit_word	
+ 	bge t2, t3, end_factorial_recursive	
+    addi t0, t0, 1		
+    mv t1, t2		
+    jal fact_max_recursion	
 
 end_factorial_recursive:
-    	addi t0, t0, -1           
+    	addi t0, t0, -1		
     	ret                    
-
 
 end:
 	la a0, msg_newline
@@ -113,5 +109,5 @@ end:
 	ecall
 	
 	li a0, 0
-	li a7, 10	
+	li a7, 10		
 	ecall
