@@ -5,6 +5,13 @@
     	mv %reg, a0
 .end_macro
 
+# Макрос для вывода целого числа
+.macro output_int %reg
+	mv %reg, a0
+	li a7, 1
+    	ecall
+.end_macro
+
 # Макрос для вывода строки
 .macro print_string %str
     	la a0, %str
