@@ -12,5 +12,5 @@ main:
 	j end
 
 end: 
-    li a7, 10
-    ecall
+	li a7, 10
+	ecall
