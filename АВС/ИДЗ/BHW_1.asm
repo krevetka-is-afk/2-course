@@ -1,3 +1,4 @@
+.include "macros.asm"
 .data
 msg_prompt_n:		.asciz "Enter the number of elements: "
 msg_prompt_elem:	.asciz "Enter element: "
@@ -10,7 +11,7 @@ array_a:		.space 40   	# 10 elem by 4 bits
 array_b:		.space 40   
 
 .text
-#.globl main
+.globl main
 
 main:
     jal input_size
@@ -20,19 +21,18 @@ main:
     jal form_array_b
 
     jal output_array_b
+    
+    j end
 
+end: 
     li a7, 10
     ecall
 
 
 input_size:
-    la a0, msg_prompt_n         
-    li a7, 4
-    ecall
+    print_string msg_prompt_n       
 
-    li a7, 5                
-    ecall
-    mv t0, a0              
+    input_int t0              
 
     li t1, 1
     li t2, 10
@@ -41,9 +41,7 @@ input_size:
     ret
 
 error:
-    la a0, msg_error        
-    li a7, 4
-    ecall
+    print_string msg_error        
     j input_size            
 
 
@@ -54,9 +52,7 @@ input_array_a:
 input_loop:
     beqz t2, input_done     
 
-    la a0, msg_prompt_elem      
-    li a7, 4
-    ecall
+    print_string msg_prompt_elem      
 
     li a7, 5               
     ecall
@@ -102,9 +98,7 @@ form_done:
 
 
 output_array_b:
-    la a0, msg_output_b         
-    li a7, 4
-    ecall
+    print_string msg_output_b         
 
     la t1, array_b          
     mv t2, t0               
@@ -116,9 +110,7 @@ output_loop:
     li a7, 1
     ecall
 
-    la a0, msg_space          
-    li a7, 4
-    ecall
+    print_string msg_space          
 
     addi t1, t1, 4          
     addi t2, t2, -1         

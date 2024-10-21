@@ -1,26 +1,20 @@
 # Макрос для чтения целого числа
-.macro read_int %reg
-    li a7, 5           # Системный вызов для чтения числа
+.macro input_int %reg
+    li a7, 5           
     ecall
-    mv %reg, a0        # Сохранение числа в указанный регистр
+    mv %reg, a0        
 .end_macro
 
 # Макрос для вывода целого числа
-.macro write_int %reg
-    mv a0, %reg        # Загружаем число для вывода
-    li a7, 1           # Системный вызов для вывода числа
+.macro output_int %reg
+    mv a0, %reg        
+    li a7, 1          
     ecall
 .end_macro
 
 # Макрос для вывода строки
 .macro print_string %str
-    la a0, %str        # Загрузка строки
-    li a7, 4           # Системный вызов для вывода строки
+    la a0, %str        
+    li a7, 4           
     ecall
-.end_macro
-
-.macro input_int %reg
-	li a7, 5
-	ecall
-	mv %reg, a0
 .end_macro
