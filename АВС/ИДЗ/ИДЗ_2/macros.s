@@ -36,25 +36,25 @@
 
 # Макрос для чтения свойств 
 .macro read_property_word %addr, %reg
-    la t0, %addr
-    lw %reg, 0(t0)
+    	la t0, %addr
+    	lw %reg, 0(t0)
 .end_macro
 
 # Макрос для записи свойств
 .macro write_property_word %addr, %reg
-    la t0, %addr
-    sw %reg, 0(t0)
+    	la t0, %addr
+    	sw %reg, 0(t0)
 .end_macro
 
 # Макрос для чтения свойств double
 .macro read_property_double %addr, %freg
-    la t0, %addr
-    fld %freg, 0(t0)
+    	la t0, %addr
+    	fld %freg, 0(t0)
 .end_macro
 
 # Макрос для записи свойств double
 .macro write_property_double %addr, %freg
-    la t0, %addr
-    fsd %freg, 0(t0)
+    	la t0, %addr
+    	fsd %freg, 0(t0)
 .end_macro
 
