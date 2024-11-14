@@ -66,6 +66,8 @@ chose_accuracy_method:
 
    
 test_mode:
+	
+	
 
 while_loop:
     	# Выбор метода
@@ -92,7 +94,7 @@ check_method_2:
     	# Проверка условия окончания для метода 2
     	read_property_double previous_sum, f9           # Загружаем previous_sum в f9
     	fsub.d 	f10, f2, f9      			# f10 = |sum - previous_sum|
-    	fabs.d 	f10, f10        				# Берем абсолютное значение
+    	fabs.d 	f10, f10        			# Берем абсолютное значение
     	fle.d 	a6, f10, f4       			# Проверка |sum - previous_sum| <= tolerance
     	bnez 	a6, end_loop       			# Если условие выполнено, выходим из цикла
 

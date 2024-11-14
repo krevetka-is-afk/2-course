@@ -12,7 +12,6 @@
 	fmv.d %reg, fa0
 .end_macro
 
-
 # Макрос для вывода целого числа
 .macro output_int %reg
 	li a7, 5
@@ -56,5 +55,26 @@
 .macro write_property_double %addr, %freg
     	la t0, %addr
     	fsd %freg, 0(t0)
+.end_macro
+
+# Макрос для записи double массива
+.macro input_array_doubls %addr, %size
+    la t1, %addr
+    mv t2, %size
+    li t3, 0
+
+input_array_doubls_loop:
+    bge t3, t2, input_array_doubls_done
+    print_string msg_prompt_elem
+
+    li a7, 7
+    ecall
+    fsd f0, 0(t1)
+
+    addi t1, t1, 8
+    addi t3, t3, 1
+    j input_array_loop
+
+input_array_doubls_done:
 .end_macro
 

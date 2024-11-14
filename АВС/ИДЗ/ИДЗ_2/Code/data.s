@@ -25,10 +25,11 @@ answer:      			.double 0.0         		# Для хранения результа
 method:      			.word 1             		# Выбор метода (1 или 2)
 previous_sum:			.double 0.0         		# Предыдущая сумма для второго метода
 
-# Тестовые данные
+# Тестовые данные не срослось
 test_x_values:      		.double -5.0, 0.0, 1.0, 2.5, 3.7 # Набор значений x для тестов
 test_tolerances:    		.double 0.0005, 0.001, 0.01      # Набор точностей для тестов
 test_methods:       		.word 1, 2, 1                    # Набор методов для тестов
+num_tests: 			.word 5
 
 msg_test_start:     		.asciz "Starting test...\n"
 msg_test_case:      		.asciz "Test case: x = "
