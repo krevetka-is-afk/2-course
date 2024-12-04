@@ -1,69 +1,55 @@
 .data
-
-buffer:     .space 12           # Буфер для строки (10 цифр + 1 для '0')
-buffer_ans: .space 12
+# Буферы теперь передаются из main
 
 .text
 .globl char_to_ascii_code_string
 char_to_ascii_code_string:
- 
- 
-    mv s6, s5
-    #la s6, str ##
-    lb s5, 0(s6) 		#if s5 is a char type need to connent 
+    # s5: целое число (код символа)
+    # s6: адрес выходного буфера
 
-    la s6, buffer         # s6 = адрес буфера
     li a2, 0              # a2 = счетчик (количество цифр)
+    mv t5, s6             # Сохраняем начальный адрес буфера
 
 convert_loop:
     # Проверяем, не равно ли число нулю
-    beq s5, zero, done    # Если s5 == 0, переходим к завершению
+    beq s5, zero, zero_case    # Если s5 == 0, обрабатываем отдельно
 
     li t0, 10
-    # Получаем последнюю цифру числа
+convert_digit:
     rem t1, s5, t0        # t1 = s5 % 10
-    addi t1, t1, '0'      # Преобразуем в ASCII (символ)
-
-    # Сохраняем цифру в буфер
+    addi t1, t1, '0'      # Преобразуем в ASCII
     sb t1, 0(s6)          # Сохраняем символ в буфер
     addi s6, s6, 1        # Увеличиваем указатель буфера
     addi a2, a2, 1        # Увеличиваем счетчик цифр
+    div s5, s5, t0        # s5 = s5 / 10
+    bnez s5, convert_digit
+    j reverse_digits
 
-    # Удаляем последнюю цифру из числа
-    div s5, s5, t0        # Делим на 10 (s5 = s5 / 10)
-    j convert_loop         # Переходим к следующей итерации
+zero_case:
+    li t1, '0'
+    sb t1, 0(s6)
+    addi s6, s6, 1
+    addi a2, a2, 1
+    j reverse_digits
 
-done:
-    # Добавляем нуль-терминатор в конец строки
-    sb zero, 0(s6)        # Записываем '0' в буфер
-
-    # Обратный порядок (переворачиваем строку)
-    la s6, buffer         # Сбрасываем указатель на начало буфера
-    add s6, s6, a2        # Указываем на конец строки (после '0')
-    addi s6, s6, -1       # Указываем на последний символ (перед '0')
-    la a3, buffer         # Сохраняем адрес начала буфера в a3
-    
-    la a6, buffer_ans
+reverse_digits:
+    sb zero, 0(s6)        # Добавляем нуль-терминатор
+    addi s6, s6, -1       # Отступаем на один символ
+    mv t0, t5             # t0 = начало буфера
+    mv t1, s6             # t1 = конец числа
 
 reverse_loop:
-    blt s6, a3, end_reverse
+    blt t0, t1, reverse_continue
+    j reverse_done
 
-    lb t1, 0(s6)          # Загружаем символ из конца строки
-    sb t1, 0(a6)          # Записываем его обратно на то же место (для демонстрации)
-    
-    addi s6, s6, -1       # Переходим к предыдущему символу
-    addi a6, a6, 1
-    j reverse_loop         # Повторяем
+reverse_continue:
+    lb t2, 0(t0)
+    lb t3, 0(t1)
+    sb t3, 0(t0)
+    sb t2, 0(t1)
+    addi t0, t0, 1
+    addi t1, t1, -1
+    j reverse_loop
 
-end_reverse:
-    # Вывод строки на консоль
-    la s11, buffer_ans         # Загружаем адрес строки
+reverse_done:
     ret
-    #mv a0, s11
-    #li a7, 4
-    #ecall
-    
-    #li a7, 10
-    #ecall
-    
-    

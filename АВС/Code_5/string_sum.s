@@ -30,5 +30,5 @@ copy_second:
 
 finish:
     sb zero, (t0)                   # Записываем конец строки
-    la s5, buffer_result_s         # Возвращаем адрес результирующей строки
+    la s11, buffer_result_s         # Возвращаем адрес результирующей строки
     ret                             # Возврат
