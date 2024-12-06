@@ -1,5 +1,5 @@
 .eqv	CHOICE_SIZE 3
-.macro print_answer_console_dialog(%message, %answer, %error)
+.macro print_auto_answer_console_dialog(%message, %answer, %error)
 .data
 	dialog_message: .asciz %message
 	choice_buffer:	.space CHOICE_SIZE
@@ -15,7 +15,7 @@ get_str_choice:
 	bnez a1, not_correct_choice
 	j correct_choice
 not_correct_choice:
-	message_dialog(%error, 0)
+	message_dialog_macro(%error, 0)
 	j get_str_choice
 correct_choice:
     	li	t4, '\n'
@@ -38,6 +38,8 @@ choice_end:
 
 .end_macro
 
+############################################################################################################################
+
 .macro read_file_name_macro(%message, %file_name, %NAME_SIZE, %error)
 .data
 	message: 		.asciz %message
@@ -53,7 +55,7 @@ get_file_name:
 	beqz a1, correct_input_file_name
 	beq a1, t1, not_correct_input_file_name
 not_correct_input_file_name:
-	message_dialog(%error, 0)
+	message_dialog_macro(%error, 0)
 	j get_file_name
 
 correct_input_file_name:
@@ -71,13 +73,17 @@ final_read_input_file_name:
 
 .end_macro
 
+############################################################################################################################
+
 .macro read_file_macro(%file_name, %TEXT_SIZE)
 	la a0, %file_name
 	li a1, %TEXT_SIZE
 	jal read_file
 .end_macro
 
-.macro message_dialog(%message, %type)
+############################################################################################################################
+
+.macro message_dialog_macro(%message, %type)
 .data
 	error_message: .asciz %message
 .text
@@ -87,30 +93,17 @@ final_read_input_file_name:
 	ecall
 .end_macro
 
-# ������ ��� ������ ������� 
-.macro read_property_word %addr, %reg
-    la t0, %addr
-    lw %reg, 0(t0)
-.end_macro
-
-# ������ ��� ������ �������
-.macro write_property_word %addr, %reg
-    la t0, %addr
-    sw %reg, 0(t0)
-.end_macro
-
-
-
+############################################################################################################################
 
 ## !! in s5 out s10-min s11-max !!
-.macro process_min_max_wrapper %string_buffer
+.macro process_min_max_macro %string_buffer
 	mv	a0, %string_buffer
 	jal process_min_max
 .end_macro 
 
-################################################################
+################################################################################################################################
 
-.macro format_srting(%first_symbol_code, %second_symbol_code, %buffer)
+.macro format_srting_macro(%first_symbol_code, %second_symbol_code, %buffer)
 .data
 first_symbol:  .space 4
 second_symbol:  .space 4
@@ -166,10 +159,7 @@ end_copy_loop_2:
 
 .end_macro
 
-
-
-
-
+################################################################################################################################
 
 # ���� ������ � ����� ��������� ������� � ������� �������� ������ �����
 # %strbuf - ����� ������
@@ -196,6 +186,8 @@ replace:
     	pop(s0)
 .end_macro
 
+################################################################################################################################
+
 # ������ ���������� �� ��������� �����,
 # ����� ����� ������ � ��������
 .macro read_addr_reg(%file_descriptor, %reg, %size)
@@ -206,6 +198,8 @@ replace:
     	ecall             	# ������
 .end_macro
 
+################################################################################################################################
+
 .macro write(%file_descriptor, %strbuf, %size)
    	li   	a7, 64       			# system call for write to file
    	mv   	a0, %file_descriptor       	# file descriptor
@@ -214,12 +208,16 @@ replace:
     	ecall             			# write to file
 .end_macro
 
-.macro write_file_wrapper(%file_name, %buffer, %size)
+################################################################################################################################
+
+.macro write_file_macro(%file_name, %buffer, %size)
 	la 	a0, %file_name
 	la 	a1, %buffer
 	li 	a2, %size
 	jal 	write_file
 .end_macro
+
+################################################################################################################################
 
 # �������� �����
 .macro close(%file_descriptor)
@@ -228,12 +226,16 @@ replace:
     	ecall             # �������� �����
 .end_macro
 
+################################################################################################################################
+
 # ��������� ������� ������������ ������ ��������� �������
 .macro allocate(%size)
     	li 	a7, 9
     	mv 	a0, %size	# ������ ����� ������
     	ecall
 .end_macro
+
+################################################################################################################################
 
 # �������� ����� ��� ������, ������, ����������
 .eqv READ_ONLY	0
@@ -252,11 +254,15 @@ er_name:
 final_open:
 .end_macro
 
+################################################################################################################################
+
 .macro print_string %reg
 	mv 	a0, %reg
 	li 	a7, 4
 	ecall
 .end_macro 
+
+################################################################################################################################
 
 # ������ ��������� ���������, ������������ ������� ��������
 .macro print_str(%x)
@@ -271,11 +277,15 @@ str:
    	pop (a0)
 .end_macro
 
+################################################################################################################################
+
 .macro print_str_label %label
    la a0, %label
    li a7, 4
    ecall
 .end_macro
+
+################################################################################################################################
 
 .macro print_char %reg
 	li 	a7, 11
@@ -283,11 +293,15 @@ str:
 	ecall
 .end_macro 
 
+################################################################################################################################
+
 .macro print_int %reg
 	mv 	a0, %reg
 	li 	a7, 1
 	ecall
 .end_macro
+
+################################################################################################################################
 
 .macro print_string_label %label
 	la 	a0, %label
@@ -295,11 +309,15 @@ str:
 	ecall
 .end_macro 
 
+################################################################################################################################
+
 # ���������� ��������� �������� �� �����
 .macro push(%x)
 	addi	sp, sp, -4
 	sw	%x, (sp)
 .end_macro
+
+################################################################################################################################
 
 # ������������ �������� � ������� ����� � �������
 .macro pop(%x)
@@ -307,10 +325,14 @@ str:
 	addi	sp, sp, 4
 .end_macro
 
+################################################################################################################################
+
 .macro end
 	li 	a7, 10
 	ecall
 .end_macro
+
+################################################################################################################################
 
 .macro write_ending_zero(%text_buffer, %size)
     	# ��������� ���� � ����� ����������� ������
@@ -320,9 +342,7 @@ str:
     	sb	zero, (t0)			# ������ ���� � ����� ������
 .end_macro
 
-
-
-################################################################
+################################################################################################################################
 
 .macro store_symbol(%symbol)
     li s3, %symbol
@@ -330,7 +350,8 @@ str:
     addi s0, s0, 1
 .end_macro
 
-################################################################
+################################################################################################################################
+
 .macro char_to_ascii_code_string(%symbol_code, %buffer)
     # %symbol_code: ����� ����� (��� �������)
     # %buffer: ����� ��������� ������
@@ -375,9 +396,9 @@ reverse_loop:
 
 reverse_done:
 .end_macro 
-################################################################
+################################################################################################################################
 
-.macro run_test_case(%input_file_name, %output_file_name, %answer)
+.macro run_test_case_macro(%input_file_name, %output_file_name, %answer)
 .data
   error_filename: .asciz "Incorrect file name"
   error_bigfile: .asciz "Input file is too big"
@@ -386,19 +407,19 @@ reverse_done:
   open_for_test(%input_file_name, READ_ONLY)
   beqz  a0, error_filename_case
   read_file_macro(%input_file_name, 512)
-  process_min_max_wrapper a0
-  format_srting(a0, a1, test_answer)
+  process_min_max_macro a0
+  format_srting_macro(a0, a1, test_answer)
   #mv  s11, s0
-  write_file_wrapper(%output_file_name, test_answer, 256)
+  write_file_macro(%output_file_name, test_answer, 256)
   
  error_filename_case:
 	strcmp(error_filename, %answer)
 .end_macro
 
-
+################################################################################################################################
 
 .eqv  CHOICE_SIZE 3
-.macro print_answer_console_dialog(%message, %answer, %error)
+.macro print_auto_answer_console_dialog(%message, %answer, %error)
 .data
   dialog_message: .asciz %message
   choice_buffer:  .space CHOICE_SIZE
@@ -414,7 +435,7 @@ get_str_choice:
   bnez a1, not_correct_choice
   j correct_choice
 not_correct_choice:
-  message_dialog(%error, 0)
+  message_dialog_macro(%error, 0)
   j get_str_choice
 correct_choice:
       li  t4, '\n'
@@ -437,6 +458,8 @@ choice_end:
 
 .end_macro
 
+################################################################################################################################
+
 .eqv READ_ONLY  0  # Открыть для чтения
 .eqv WRITE_ONLY  1  # Открыть для записи
 .eqv APPEND  9  # Открыть для добавления
@@ -455,6 +478,7 @@ er_name:
 final_open:
 .end_macro
 
+################################################################################################################################
 
 .macro strcmp(%str1, %str2)
   la  a0, %str1
@@ -474,7 +498,7 @@ end_strcmp:
 .end_macro
 
 .eqv  CHOICE_SIZE 3
-.macro print_result_console_dialog(%message, %answer, %error)
+.macro print_result_console_dialog_macro(%message, %answer, %error)
 .data
   dialog_message: .asciz %message
   choice_buffer:  .space CHOICE_SIZE
@@ -490,7 +514,7 @@ get_str_choice:
   bnez a1, not_correct_choice
   j correct_choice
 not_correct_choice:
-  message_dialog(%error, 0)
+  message_dialog_macro(%error, 0)
   j get_str_choice
 correct_choice:
       li  t4, '\n'

@@ -25,11 +25,11 @@
 #.globl main
 .text
 #main:
-	run_test_case(input_file_name1, output_file_name1, answer1)
-	run_test_case(input_file_name2, output_file_name2, answer2)
-	run_test_case(input_file_name3, output_file_name3, answer3)
-	run_test_case(input_file_name4, output_file_name4, answer4)
-	run_test_case(input_file_name5, output_file_name5, answer5)
-	run_test_case(input_file_name6, output_file_name6, answer6)
-	
+	run_test_case_macro(input_file_name1, output_file_name1, answer1)
+	run_test_case_macro(input_file_name2, output_file_name2, answer2)
+	run_test_case_macro(input_file_name3, output_file_name3, answer3)
+	run_test_case_macro(input_file_name4, output_file_name4, answer4)
+	run_test_case_macro(input_file_name5, output_file_name5, answer5)
+	run_test_case_macro(input_file_name6, output_file_name6, answer6)
+	print_str("Auto tests done pls check dirictory test/output_text\n")
 	end
