@@ -1,0 +1,3 @@
+/Users/sergejrastvorov/Documents/GitHub/2-course/АВС/ИДЗ/ИДЗ_4/cmake-build-debug/CMakeFiles/IHW_4.dir
+/Users/sergejrastvorov/Documents/GitHub/2-course/АВС/ИДЗ/ИДЗ_4/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/sergejrastvorov/Documents/GitHub/2-course/АВС/ИДЗ/ИДЗ_4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
