@@ -1,0 +1,53 @@
+Customer 1 entered the shop.
+Customer 2 entered the shop.
+Customer 1 is being served in department 2.
+Customer 2 is being served in department 1.
+Customer 3 entered the shop.
+Customer 4 entered the shop.
+Customer 3 is waiting in line at department 2.
+Customer 5 entered the shop.
+Customer 5 is waiting in line at department 1.
+Customer 4 is waiting in line at department 2.
+Customer 1 left department 2.
+Customer 1 is waiting in line at department 1.
+Customer 2 left department 1.
+Customer 2 is being served in department 0.
+Customer 5 is being served in department 1.
+Customer 3 is being served in department 2.
+Customer 2 left department 0.
+Customer 2 is waiting in line at department 2.
+Customer 1 is being served in department 1.
+Customer 5 left department 1.
+Customer 5 is being served in department 0.
+Customer 1 left department 1.
+Customer 1 is waiting in line at department 0.
+Customer 5 left department 0.
+Customer 5 is waiting in line at department 2.
+Customer 1 is being served in department 0.
+Customer 4 is being served in department 2.
+Customer 3 left department 2.
+Customer 3 is waiting in line at department 0.
+Customer 4 left department 2.
+Customer 4 is waiting in line at department 0.
+Customer 2 is being served in department 2.
+Customer 1 left department 0.
+Customer 1 left the shop.
+Customer 3 is being served in department 0.
+Customer 2 left department 2.
+Customer 2 left the shop.
+Customer 5 is being served in department 2.
+Customer 5 left department 2.
+Customer 5 left the shop.
+Customer 3 left department 0.
+Customer 3 is being served in department 1.
+Customer 4 is being served in department 0.
+Customer 4 left department 0.
+Customer 4 is waiting in line at department 1.
+Customer 3 left department 1.
+Customer 3 left the shop.
+Customer 4 is being served in department 1.
+Customer 4 left department 1.
+Customer 4 left the shop.
+Seller in department 0 finished work.
+Seller in department 1 finished work.
+Seller in department 2 finished work.
